@@ -1,12 +1,12 @@
 /* components */
-export Router from './Router'
-export Link from './Link'
-export withRouter from './withRouter'
+export { default as Router } from './Router'
+export { default as Link } from './Link'
+export { default as withRouter } from './withRouter'
 
 /* components (configuration) */
-export IndexRedirect from './IndexRedirect'
-export IndexRoute from './IndexRoute'
-export Route from './Route'
+export { default as IndexRedirect } from './IndexRedirect'
+export { default as IndexRoute } from './IndexRoute'
+export { default as Route } from './Route'
 
 /* histories */
-export browserHistory from './browserHistory'
+export { default as browserHistory } from './browserHistory'

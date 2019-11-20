@@ -15,8 +15,6 @@ function makeContextName(name) {
   return `@@contextSubscriber/${name}`
 }
 
-const prefixUnsafeLifecycleMethods = typeof React.forwardRef !== 'undefined'
-
 export function ContextProvider(name) {
   const contextName = makeContextName(name)
   const listenersKey = `${contextName}/listeners`
@@ -37,14 +35,12 @@ export function ContextProvider(name) {
       }
     },
 
-    // this method will be updated to UNSAFE_componentWillMount below for React versions >= 16.3
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this[listenersKey] = []
       this[eventIndexKey] = 0
     },
 
-    // this method will be updated to UNSAFE_componentWillReceiveProps below for React versions >= 16.3
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
       this[eventIndexKey]++
     },
 
@@ -64,13 +60,6 @@ export function ContextProvider(name) {
         )
       }
     }
-  }
-
-  if (prefixUnsafeLifecycleMethods) {
-    config.UNSAFE_componentWillMount = config.componentWillMount
-    config.UNSAFE_componentWillReceiveProps = config.componentWillReceiveProps
-    delete config.componentWillMount
-    delete config.componentWillReceiveProps
   }
   return config
 }
@@ -106,8 +95,7 @@ export function ContextSubscriber(name) {
       )
     },
 
-    // this method will be updated to UNSAFE_componentWillReceiveProps below for React versions >= 16.3
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
       if (!this.context[contextName]) {
         return
       }
@@ -131,11 +119,6 @@ export function ContextSubscriber(name) {
         this.setState({ [lastRenderedEventIndexKey]: eventIndex })
       }
     }
-  }
-
-  if (prefixUnsafeLifecycleMethods) {
-    config.UNSAFE_componentWillReceiveProps = config.componentWillReceiveProps
-    delete config.componentWillReceiveProps
   }
   return config
 }
